@@ -1,5 +1,4 @@
 .git
-.circleci
 node_modules
 npm-debug
 .vscode

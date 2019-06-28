@@ -1,8 +1,6 @@
 # gitlab_helper_bot
 
-copy of [github.com/TrueGrom/gitlab_helper_bot][base]
-
-## About
+### About
 
 Телеграм бот, который оповещает о новых merge requests (gitlab) и назначет проверяющих.
 
@@ -10,12 +8,12 @@ copy of [github.com/TrueGrom/gitlab_helper_bot][base]
 
 [Документация по фреймворку бота](https://telegraf.js.org)
 
-## Requirements
+### Requirements
 
 - MongoDB
 - docker-compose
 
-## Deployment
+### Deployment
 
 Для работы бота необходимы:
 
@@ -41,13 +39,13 @@ copy of [github.com/TrueGrom/gitlab_helper_bot][base]
 Для периодического обновления необходимо запускать команду `docker-compose run bot-cron-job`. Рекомендуется
 использовать cron (желательно запускать команду не чаще чем каждые 4 минуты, так как Gitlab иногда очень долго отвечает)
 
-## Deployment Polling
+### Deployment Polling
 
 - Запуск бота в режиме демона `docker-compose up -d --no-recreate bot-polling`
 - Обновить контейнер `docker-compose up -d --force-recreate --build bot-polling`
 - Остановка `docker-compose down`
 
-## Deployment Webhook
+### Deployment Webhook
 
 Для запуска в этом режиме требуется указать дополнительные переменные окружения:
 
@@ -77,7 +75,7 @@ server {
 }
 ```
 
-## Management
+### Management
 
 Для начала необходимо инициализировать базу и добавить бота в необходимую группу Telegram
 
@@ -113,10 +111,9 @@ server {
 - `/for_me` Выводит список merge requests назначенных на текущего пользователя
 - `/report` Выводит статус текущих merge requests
 
-## Authors
+### Authors
 
 - Роман Громов
 
-[base]: https://github.com/TrueGrom/gitlab_helper_bot
 [gitlab_token]: https://gitlab.com/profile/personal_access_tokens
 [telegram_token]: https://core.telegram.org/bots#3-how-do-i-create-a-bot

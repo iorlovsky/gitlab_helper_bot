@@ -78,9 +78,23 @@ async function updateDatabaseFromChat(ctx) {
   }
 }
 
+async function startCommand(ctx) {
+  try {
+    const member = await Member.findOne({ tgUsername: ctx.chat.username });
+    if (member) {
+      await member.setTelegramInfo(ctx.chat);
+    }
+    return ctx.reply("Hello!");
+  } catch (e) {
+    logger.error(e);
+    return ctx.reportError(e);
+  }
+}
+
 module.exports = {
   activateChat,
   enableNotifications,
   disableNotifications,
-  updateDatabaseFromChat
+  updateDatabaseFromChat,
+  startCommand
 };

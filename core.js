@@ -36,6 +36,7 @@ bot.telegram.getMe().then(botInfo => {
   bot.options.username = botInfo.username;
 });
 
+bot.start(commands.startCommand);
 bot.command("attach", onlyAdmin(onlyPrivate(ctx => ctx.scene.enter("attach"))));
 bot.command("deactivate", onlyAdmin(onlyPrivate(ctx => ctx.scene.enter("deactivate"))));
 bot.command("revoke", onlyAdmin(onlyPrivate(ctx => ctx.scene.enter("revoke"))));

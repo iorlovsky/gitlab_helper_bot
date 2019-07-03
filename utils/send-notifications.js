@@ -5,9 +5,9 @@ const MergeRequest = require("../models/merge-request");
 const Member = require("../models/member");
 const Message = require("../models/message");
 const logger = require("../logger");
-const { TELEGRAM_TOKEN, DEFAULT_PROJECT } = require("../settings");
+const { TELEGRAM_TOKEN, DEFAULT_PROJECT, BOT_CONFIG } = require("../settings");
 
-const telegram = new Telegram(TELEGRAM_TOKEN);
+const telegram = new Telegram(TELEGRAM_TOKEN, BOT_CONFIG.telegram);
 
 function makeApprovalMessage({ title, web_url }, usernames, reply) {
   const hashTags = "#approved";

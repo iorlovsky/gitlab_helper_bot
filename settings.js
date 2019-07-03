@@ -10,7 +10,8 @@ const {
   DB_HOST = "localhost",
   DB_PORT = "27017",
   DB_NAME,
-  DEFAULT_PROJECT
+  DEFAULT_PROJECT,
+  SOCKS_URL
 } = process.env;
 
 const DB_URL = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
@@ -25,5 +26,6 @@ module.exports = {
   ADMIN_ID: parseInt(ADMIN_ID, 10),
   DB_URL,
   DEFAULT_PROJECT,
+  SOCKS_URL,
   DEFAULT_MESSAGE: "¯\\_(ツ)_/¯"
 };

@@ -33,6 +33,9 @@
 - `DB_NAME` имя базы Mongodb
 - `NODE_ENV` development/production
 
+Бот поддерживает работу через SOCKS proxy. Для активации необходимо задать переменную окружения
+`SOCKS_URL` в формате `server=host&port=5555&user=awesomeuser&pass=awesomepassword`
+
 Перед первым запуском необходмио создать базу данных MongoDB. После создания базы данных необходимо
 инициализировать данные проекта с помощью команды `docker-compose run --entrypoint "node bin/init-database" bot-cron-job`
 

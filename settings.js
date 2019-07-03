@@ -1,3 +1,5 @@
+const proxy = require("./proxy");
+
 const {
   TELEGRAM_TOKEN,
   GITLAB_TOKEN,
@@ -14,6 +16,13 @@ const {
   SOCKS_URL
 } = process.env;
 
+const botConfig = {
+  telegram: {}
+};
+if (SOCKS_URL) {
+  botConfig.telegram = { ...botConfig.telegram, agent: proxy(SOCKS_URL) };
+}
+
 const DB_URL = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
 module.exports = {
@@ -26,6 +35,6 @@ module.exports = {
   ADMIN_ID: parseInt(ADMIN_ID, 10),
   DB_URL,
   DEFAULT_PROJECT,
-  SOCKS_URL,
+  BOT_CONFIG: botConfig,
   DEFAULT_MESSAGE: "¯\\_(ツ)_/¯"
 };

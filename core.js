@@ -4,22 +4,14 @@ const Stage = require("telegraf/stage");
 const express = require("express")();
 
 const { extendBot, onlyAdmin, onlyPrivate, onlyGroup } = require("./decorators");
-const { TELEGRAM_TOKEN, EXPRESS_PATH, SECRET_LOCATION, SECRET_PATH, BOT_PORT, SOCKS_URL } = require("./settings");
+const { TELEGRAM_TOKEN, EXPRESS_PATH, SECRET_LOCATION, SECRET_PATH, BOT_PORT, BOT_CONFIG } = require("./settings");
 const { GITLAB_USERNAME_PATTERN } = require("./constants");
 const commands = require("./bot_handlers/commands");
 const scenes = require("./bot_handlers/scenes");
 const actions = require("./bot_handlers/actions");
 const logger = require("./logger");
-const proxy = require("./proxy");
 
-const botConfig = {
-  telegram: {}
-};
-if (SOCKS_URL) {
-  botConfig.telegram = { ...botConfig.telegram, agent: proxy };
-}
-
-const bot = new Telegraf(TELEGRAM_TOKEN, botConfig);
+const bot = new Telegraf(TELEGRAM_TOKEN, BOT_CONFIG);
 extendBot(bot);
 
 const stage = new Stage();

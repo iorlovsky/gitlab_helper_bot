@@ -22,7 +22,7 @@ function extendBot(bot) {
     return this.from.id === ADMIN_ID;
   };
 
-  bot.context.reportError = function(error) {
+  bot.context.reportError = error => {
     return bot.telegram.sendMessage(ADMIN_ID, error);
   };
 

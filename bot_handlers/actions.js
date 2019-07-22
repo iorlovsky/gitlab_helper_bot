@@ -142,7 +142,7 @@ async function myMergeRequests(ctx) {
     return ctx.reply("Relax. No merge requests for you");
   } catch (e) {
     logger.error(e);
-    ctx.reportError(e);
+    ctx.reportError(e.message);
   }
 }
 

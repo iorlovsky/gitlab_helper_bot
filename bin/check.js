@@ -9,11 +9,9 @@ const { getMetaUpdates } = require("../utils/updates");
 const { handleApprovals } = require("../utils/approvals");
 const { reportProblems } = require("../utils/merging-problems");
 
-async function updateMergeRequests() {
-  const mergeRequestIds = _.keyBy(await MergeRequest.find({}, { iid: 1 }), "iid");
-  const mergeRequests = await api.getAllMergeRequests();
-  const updateBulkOperations = mergeRequests
-    .filter(({ iid }) => mergeRequestIds[iid])
+function getMergeRequestsToUpdate(databaseMergeRequestIds, gitlabMergeRequests) {
+  return gitlabMergeRequests
+    .filter(({ iid }) => databaseMergeRequestIds[iid])
     .map(mergeRequest => ({
       updateOne: {
         filter: { id: mergeRequest.id, iid: mergeRequest.iid },
@@ -22,9 +20,32 @@ async function updateMergeRequests() {
         }
       }
     }));
-  const newMergeRequest = mergeRequests.filter(({ iid }) => !mergeRequestIds[iid]);
+}
+
+function getMergeRequestsToExclude(databaseMergeRequestIds, gitlabMergeRequests) {
+  return Object.keys(databaseMergeRequestIds)
+    .filter(iid => !gitlabMergeRequests.find(mergeRequest => mergeRequest.iid === parseInt(iid, 10)))
+    .map(iid => ({
+      updateOne: {
+        filter: { iid },
+        update: {
+          exclude: true
+        }
+      }
+    }));
+}
+
+async function updateMergeRequests() {
+  const databaseMergeRequestIds = _.keyBy(await MergeRequest.find({ exclude: false }, { iid: 1 }), "iid");
+  const gitlabMergeRequests = await api.getOpenedMergeRequests();
+  const updateBulkOperations = getMergeRequestsToUpdate(databaseMergeRequestIds, gitlabMergeRequests);
+  const excludeBulkOperations = getMergeRequestsToExclude(databaseMergeRequestIds, gitlabMergeRequests);
+  const newMergeRequest = gitlabMergeRequests.filter(({ iid }) => !databaseMergeRequestIds[iid]);
   if (updateBulkOperations.length) {
     await MergeRequest.bulkWrite(updateBulkOperations);
+  }
+  if (excludeBulkOperations.length) {
+    await MergeRequest.bulkWrite(excludeBulkOperations);
   }
   await MergeRequest.insertMany(newMergeRequest);
 }

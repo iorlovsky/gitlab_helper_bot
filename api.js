@@ -11,6 +11,10 @@ class Api {
     return this._api.MergeRequests.all({ projectId: this._projectId, scope });
   }
 
+  getOpenedMergeRequests({ state = "opened" } = {}) {
+    return this._api.MergeRequests.all({ projectId: this._projectId, state });
+  }
+
   getProject() {
     return this._api.Projects.show(this._projectId);
   }

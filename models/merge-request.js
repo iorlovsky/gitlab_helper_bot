@@ -161,6 +161,7 @@ MergeRequestSchema.statics.getNotNotified = function() {
 MergeRequestSchema.statics.getNotApprovedByMember = function({ _id, id }) {
   return this.find({
     state: "opened",
+    exclude: false,
     appointed_approvers: _id,
     "approved_by.id": { $ne: id },
     emojis: { $not: { $elemMatch: { "user.id": id, name: "thumbsup", awardable_type: "MergeRequest" } } }
